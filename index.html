@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JMG Service — Criação de sites, automações e marketing digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="description" content="JMG Service cria landing pages, sites institucionais, lojas virtuais, automações, SEO e marketing digital com padrão de agência internacional.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root{
+    --color-primary:#0E5A4F;
+    --color-secondary:#12352E;
+    --color-accent:#D6B66A;
+    --bg-primary:#080A09;
+    --bg-secondary:#131716;
+    --card:#171C1A;
+    --text:#FFFFFF;
+    --text-secondary:#BFC8C3;
+    --border:rgba(255,255,255,.08);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg-primary);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    letter-spacing:-0.02em;
+  }
+
+  a{text-decoration:none;color:inherit;}
+  ul{list-style:none;}
+  button{font-family:'Inter',sans-serif;cursor:pointer;border:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ===== NAVBAR ===== */
+  .navbar{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px clamp(20px,5vw,64px);
+    background:transparent;
+    border-bottom:1px solid transparent;
+    transition:background .5s ease, border-color .5s ease, backdrop-filter .5s ease, padding .4s ease;
+  }
+
+  .navbar.scrolled{
+    background:rgba(8,10,9,.62);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    border-bottom:1px solid var(--border);
+    padding:14px clamp(20px,5vw,64px);
+  }
+
+  .logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:19px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .logo-mark{
+    width:9px;height:9px;
+    border-radius:2px;
+    background:var(--color-accent);
+    box-shadow:0 0 12px rgba(214,182,106,.7);
+    flex-shrink:0;
+  }
+
+  .logo span{color:var(--text-secondary); font-weight:400;}
+
+  .logo-brand{line-height:0;}
+
+  .logo-svg{
+    height:52px;
+    width:auto;
+    display:block;
+    border-radius:8px;
+    transition:height .4s ease, transform .3s ease;
+  }
+
+  .logo-brand:hover .logo-svg{transform:scale(1.03);}
+
+  .navbar.scrolled .logo-svg{height:42px;}
+
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:40px;
+  }
+
+  .nav-links a{
+    font-size:14px;
+    color:var(--text-secondary);
+    position:relative;
+    transition:color .3s ease;
+    padding:4px 0;
+  }
+
+  .nav-links a::after{
+    content:'';
+    position:absolute;
+    left:0;bottom:0;
+    width:0%;
+    height:1px;
+    background:var(--color-accent);
+    transition:width .35s ease;
+  }
+
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a:hover::after{width:100%;}
+
+  .nav-cta{
+    display:flex;
+    align-items:center;
+    gap:28px;
+  }
+
+  .btn-primary{
+    background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));
+    color:var(--text);
+    padding:11px 24px;
+    border-radius:100px;
+    font-size:13.5px;
+    font-weight:500;
+    border:1px solid rgba(255,255,255,.1);
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    white-space:nowrap;
+  }
+
+  .btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 30px rgba(14,90,79,.45);
+    border-color:rgba(214,182,106,.4);
+  }
+
+  .btn-secondary{
+    background:transparent;
+    color:var(--text);
+    padding:13px 26px;
+    border-radius:100px;
+    font-size:14px;
+    font-weight:500;
+    border:1px solid var(--border);
+    transition:border-color .3s ease, background .3s ease;
+  }
+
+  .btn-secondary:hover{
+    border-color:rgba(255,255,255,.25);
+    background:rgba(255,255,255,.03);
+  }
+
+  .menu-toggle{
+    display:none;
+    width:22px;height:16px;
+    position:relative;
+    background:none;
+  }
+  .menu-toggle span{
+    position:absolute;left:0;right:0;height:1.5px;background:var(--text);
+    transition:all .3s ease;
+  }
+  .menu-toggle span:nth-child(1){top:0;}
+  .menu-toggle span:nth-child(2){top:7px;}
+  .menu-toggle span:nth-child(3){top:14px;}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding:140px clamp(20px,5vw,64px) 80px;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 700px 500px at 15% 20%, rgba(14,90,79,.35), transparent 60%),
+      radial-gradient(ellipse 600px 600px at 85% 75%, rgba(18,53,46,.5), transparent 60%),
+      var(--bg-primary);
+  }
+
+  .hero-grid-bg{
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 75%);
+    pointer-events:none;
+  }
+
+  .hero-inner{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    gap:40px;
+    align-items:center;
+    max-width:1360px;
+    margin:0 auto;
+    width:100%;
+  }
+
+  .hero-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 16px 8px 8px;
+    border-radius:100px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.02);
+    font-size:12.5px;
+    color:var(--text-secondary);
+    margin-bottom:28px;
+    animation:fadeUp .8s ease .1s both;
+  }
+
+  .hero-eyebrow .dot{
+    width:20px;height:20px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--color-accent),var(--color-primary));
+    display:flex;align-items:center;justify-content:center;
+    font-size:10px;
+  }
+
+  .hero h1{
+    font-size:clamp(38px,4.6vw,66px);
+    line-height:1.06;
+    color:var(--text);
+    max-width:640px;
+    animation:fadeUp .9s ease .2s both;
+  }
+
+  .hero h1 .accent-word{
+    background:linear-gradient(135deg,var(--color-accent),#e8d19c);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  .hero p.lead{
+    margin-top:26px;
+    font-size:17px;
+    line-height:1.65;
+    color:var(--text-secondary);
+    max-width:480px;
+    animation:fadeUp .9s ease .32s both;
+  }
+
+  .hero-actions{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-top:42px;
+    animation:fadeUp .9s ease .44s both;
+  }
+
+  .hero-actions .btn-primary{padding:15px 30px; font-size:14.5px;}
+  .hero-actions .btn-secondary{
+    padding:15px 28px;
+    font-size:14.5px;
+    display:flex;align-items:center;gap:8px;
+  }
+
+  .hero-stats{
+    display:flex;
+    gap:44px;
+    margin-top:64px;
+    padding-top:32px;
+    border-top:1px solid var(--border);
+    max-width:520px;
+    animation:fadeUp .9s ease .56s both;
+  }
+
+  .hero-stats .stat h3{
+    font-size:26px;
+    color:var(--text);
+    margin-bottom:4px;
+  }
+
+  .hero-stats .stat span{
+    font-size:12.5px;
+    color:var(--text-secondary);
+  }
+
+  /* ===== MOCKUP ===== */
+  .hero-visual{
+    position:relative;
+    height:560px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    animation:fadeIn 1.2s ease .3s both;
+  }
+
+  .glow-orb{
+    position:absolute;
+    width:420px;height:420px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(14,90,79,.55), transparent 70%);
+    filter:blur(40px);
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    z-index:0;
+    animation:pulse 7s ease-in-out infinite;
+  }
+
+  .device-stack{
+    position:relative;
+    z-index:2;
+    width:100%;
+    height:100%;
+  }
+
+  .laptop{
+    position:absolute;
+    left:50%;
+    top:46%;
+    transform:translate(-50%,-50%);
+    width:440px;
+    max-width:88vw;
+    animation:floatSlow 6s ease-in-out infinite;
+  }
+
+  .laptop-screen{
+    background:var(--bg-secondary);
+    border:1px solid var(--border);
+    border-radius:14px 14px 4px 4px;
+    padding:10px;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.02);
+  }
+
+  .laptop-topbar{
+    display:flex;
+    gap:6px;
+    padding:0 4px 10px;
+  }
+
+  .laptop-topbar span{
+    width:7px;height:7px;border-radius:50%;
+    background:rgba(255,255,255,.15);
+  }
+
+  .laptop-content{
+    background:linear-gradient(160deg, var(--card), #0d1110);
+    border-radius:8px;
+    padding:20px;
+    height:230px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--border);
+  }
+
+  .laptop-content .line{
+    height:8px;
+    border-radius:4px;
+    background:rgba(255,255,255,.06);
+    margin-bottom:12px;
+  }
+  .laptop-content .line.w60{width:60%;}
+  .laptop-content .line.w40{width:40%; background:rgba(214,182,106,.35);}
+  .laptop-content .line.w80{width:80%;}
+
+  .laptop-content .card-mini{
+    position:absolute;
+    bottom:18px;left:18px;right:18px;
+    height:64px;
+    border-radius:8px;
+    background:linear-gradient(120deg, rgba(14,90,79,.5), rgba(18,53,46,.3));
+    border:1px solid rgba(255,255,255,.06);
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    gap:10px;
+  }
+
+  .laptop-content .card-mini .avatar{
+    width:30px;height:30px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--color-accent),var(--color-primary));
+    flex-shrink:0;
+  }
+
+  .laptop-content .card-mini .bars{flex:1;}
+  .laptop-content .card-mini .bars div{
+    height:6px;border-radius:3px;background:rgba(255,255,255,.12);margin-bottom:6px;
+  }
+  .laptop-content .card-mini .bars div:last-child{width:60%; margin-bottom:0;}
+
+  .laptop-base{
+    height:14px;
+    background:linear-gradient(180deg,#1a201d,#0c0f0e);
+    border-radius:0 0 10px 10px;
+    margin-top:-1px;
+    box-shadow:0 20px 30px -15px rgba(0,0,0,.6);
+  }
+
+  .laptop-base::after{
+    content:'';
+    display:block;
+    width:70px;height:5px;
+    background:rgba(255,255,255,.06);
+    border-radius:0 0 6px 6px;
+    margin:0 auto;
+  }
+
+  .phone{
+    position:absolute;
+    right:2%;
+    bottom:2%;
+    width:150px;
+    z-index:3;
+    animation:floatSlow 6.5s ease-in-out infinite .4s;
+  }
+
+  .phone-frame{
+    background:var(--bg-secondary);
+    border:1px solid var(--border);
+    border-radius:26px;
+    padding:8px;
+    box-shadow:0 30px 60px -15px rgba(0,0,0,.75);
+  }
+
+  .phone-screen{
+    background:linear-gradient(160deg, var(--card), #0d1110);
+    border-radius:20px;
+    height:290px;
+    padding:16px 12px;
+    border:1px solid var(--border);
+    position:relative;
+    overflow:hidden;
+  }
+
+  .phone-notch{
+    width:44px;height:5px;
+    background:rgba(255,255,255,.12);
+    border-radius:4px;
+    margin:0 auto 18px;
+  }
+
+  .phone-screen .pline{
+    height:6px;border-radius:3px;
+    background:rgba(255,255,255,.08);
+    margin-bottom:10px;
+  }
+  .phone-screen .pline.w70{width:70%;}
+  .phone-screen .pline.w50{width:50%; background:rgba(214,182,106,.4);}
+
+  .phone-screen .pdot{
+    width:36px;height:36px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));
+    margin-bottom:14px;
+    border:1px solid rgba(255,255,255,.08);
+  }
+
+  /* floating thin lines / particles */
+  .float-line{
+    position:absolute;
+    background:linear-gradient(90deg, transparent, rgba(214,182,106,.5), transparent);
+    height:1px;
+    z-index:1;
+    opacity:.5;
+  }
+  .fl1{width:180px; top:12%; left:2%; transform:rotate(18deg); animation:drift 9s ease-in-out infinite;}
+  .fl2{width:120px; bottom:18%; left:8%; transform:rotate(-12deg); animation:drift 11s ease-in-out infinite 1s;}
+
+  .float-dot{
+    position:absolute;
+    width:5px;height:5px;
+    border-radius:50%;
+    background:var(--color-accent);
+    box-shadow:0 0 14px rgba(214,182,106,.8);
+    z-index:1;
+  }
+  .fd1{top:8%; right:10%; animation:driftDot 8s ease-in-out infinite;}
+  .fd2{bottom:10%; left:4%; animation:driftDot 10s ease-in-out infinite 1.5s;}
+  .fd3{top:55%; right:2%; animation:driftDot 7s ease-in-out infinite .8s;}
+
+  .scroll-cue{
+    position:absolute;
+    bottom:36px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    z-index:3;
+    opacity:.55;
+  }
+  .scroll-cue span{
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--text-secondary);
+  }
+  .scroll-cue .line{
+    width:1px;height:34px;
+    background:linear-gradient(180deg, var(--color-accent), transparent);
+    animation:scrollLine 2s ease-in-out infinite;
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(22px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  @keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+  }
+  @keyframes floatSlow{
+    0%,100%{transform:translate(-50%,-50%) translateY(0);}
+    50%{transform:translate(-50%,-50%) translateY(-14px);}
+  }
+  .phone{animation-name:floatPhone;}
+  @keyframes floatPhone{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+  }
+  @keyframes pulse{
+    0%,100%{opacity:.6; transform:translate(-50%,-50%) scale(1);}
+    50%{opacity:.9; transform:translate(-50%,-50%) scale(1.08);}
+  }
+  @keyframes drift{
+    0%,100%{transform:translateY(0) rotate(var(--r,0deg));}
+    50%{transform:translateY(-16px);}
+  }
+  @keyframes driftDot{
+    0%,100%{transform:translate(0,0);}
+    50%{transform:translate(6px,-14px);}
+  }
+  @keyframes scrollLine{
+    0%{transform:scaleY(0); transform-origin:top;}
+    50%{transform:scaleY(1); transform-origin:top;}
+    51%{transform-origin:bottom;}
+    100%{transform:scaleY(0); transform-origin:bottom;}
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:980px){
+    .nav-links{display:none;}
+    .menu-toggle{display:block;}
+    .nav-cta .btn-secondary{display:none;}
+    .hero-inner{grid-template-columns:1fr; text-align:left;}
+    .hero-visual{height:440px; margin-top:20px;}
+    .laptop{width:340px;}
+    .phone{width:110px; right:0;}
+    .hero-stats{gap:30px;}
+  }
+
+  @media (max-width:560px){
+    .hero{padding-top:120px;}
+    .hero h1{font-size:34px;}
+    .hero-stats{flex-wrap:wrap; row-gap:20px;}
+    .hero-actions{flex-direction:column; align-items:stretch;}
+    .hero-actions a{text-align:center;}
+    .hero-visual{height:380px;}
+    .laptop{width:280px;}
+    .phone{display:none;}
+    .logo-svg{height:38px;}
+    .navbar.scrolled .logo-svg{height:34px;}
+  }
+
+  
+  /* ======================================================
+     ===== SEÇÕES ADICIONAIS — SERVIÇOS / SOBRE / ETC =====
+     ====================================================== */
+
+  .section{
+    position:relative;
+    padding:150px clamp(20px,5vw,64px);
+    overflow:hidden;
+  }
+
+  .section-alt{
+    background:var(--bg-secondary);
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+
+  .section-inner{
+    position:relative;
+    z-index:2;
+    max-width:1360px;
+    margin:0 auto;
+  }
+
+  .section-header{
+    max-width:640px;
+    margin-bottom:72px;
+  }
+
+  .section-header.center{
+    max-width:680px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+  }
+
+  .section-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 16px 8px 8px;
+    border-radius:100px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.02);
+    font-size:12.5px;
+    color:var(--text-secondary);
+    margin-bottom:22px;
+  }
+
+  .section-eyebrow .dot{
+    width:20px;height:20px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--color-accent),var(--color-primary));
+    display:flex;align-items:center;justify-content:center;
+    font-size:10px;
+    flex-shrink:0;
+  }
+
+  .section-title{
+    font-size:clamp(28px,3.6vw,42px);
+    line-height:1.16;
+    color:var(--text);
+  }
+
+  .section-title .accent-word{
+    background:linear-gradient(135deg,var(--color-accent),#e8d19c);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  .section-lead{
+    margin-top:18px;
+    font-size:16px;
+    line-height:1.75;
+    color:var(--text-secondary);
+  }
+
+  /* .reveal fica visível por padrão; o JS (quando GSAP carrega) aplica
+     a ocultação inicial via gsap.set/fromTo antes de animar. Assim, se o
+     GSAP não carregar por algum motivo, o conteúdo nunca fica invisível. */
+  .reveal{
+    opacity:1;
+  }
+
+  /* ===== ícones em chip ===== */
+  .icon-chip{
+    width:52px;height:52px;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));
+    border:1px solid rgba(255,255,255,.08);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    transition:transform .4s ease, box-shadow .4s ease;
+  }
+
+  .icon-chip svg{
+    width:24px;height:24px;
+    stroke:var(--text);
+    fill:none;
+    stroke-width:1.6;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  /* ===== SERVIÇOS ===== */
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:24px;
+  }
+
+  .service-card{
+    position:relative;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:32px 28px;
+    transition:transform .45s cubic-bezier(.2,.7,.2,1), border-color .45s ease, box-shadow .45s ease, background .45s ease;
+    overflow:hidden;
+  }
+
+  .service-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(320px 200px at 100% 0%, rgba(214,182,106,.08), transparent 60%);
+    opacity:0;
+    transition:opacity .5s ease;
+    pointer-events:none;
+  }
+
+  .service-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(214,182,106,.28);
+    box-shadow:0 30px 60px -25px rgba(0,0,0,.6);
+    background:linear-gradient(180deg, var(--card), #191f1c);
+  }
+
+  .service-card:hover::before{opacity:1;}
+
+  .service-card:hover .icon-chip{
+    transform:scale(1.08) rotate(-4deg);
+    box-shadow:0 10px 26px -6px rgba(14,90,79,.6);
+  }
+
+  .service-card h3{
+    font-size:19px;
+    margin:22px 0 10px;
+    color:var(--text);
+  }
+
+  .service-card p{
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--text-secondary);
+  }
+
+  .service-card .card-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:20px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--color-accent);
+    opacity:0;
+    transform:translateX(-6px);
+    transition:opacity .4s ease, transform .4s ease;
+  }
+
+  .service-card:hover .card-link{opacity:1; transform:translateX(0);}
+
+  .service-card .card-link svg{
+    width:14px;height:14px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    transition:transform .3s ease;
+  }
+
+  .service-card:hover .card-link svg{transform:translateX(3px);}
+
+  /* ===== SOBRE ===== */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+    align-items:center;
+  }
+
+  .about-copy p{
+    font-size:16px;
+    line-height:1.8;
+    color:var(--text-secondary);
+    margin-top:20px;
+    max-width:520px;
+  }
+
+  .about-copy p:first-of-type{margin-top:24px;}
+
+  .about-stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+
+  .about-stat{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:30px 26px;
+    transition:transform .4s ease, border-color .4s ease;
+  }
+
+  .about-stat:hover{
+    transform:translateY(-6px);
+    border-color:rgba(214,182,106,.25);
+  }
+
+  .about-stat h3{
+    font-size:38px;
+    color:var(--text);
+    display:flex;
+    align-items:baseline;
+    gap:2px;
+  }
+
+  .about-stat span{
+    display:block;
+    margin-top:8px;
+    font-size:13px;
+    color:var(--text-secondary);
+    line-height:1.5;
+  }
+
+  .about-stat .pulse-dot{
+    width:10px;height:10px;
+    border-radius:50%;
+    background:var(--color-accent);
+    box-shadow:0 0 0 0 rgba(214,182,106,.6);
+    animation:pulseRing 2.2s ease-out infinite;
+    display:inline-block;
+    margin-right:10px;
+  }
+
+  @keyframes pulseRing{
+    0%{box-shadow:0 0 0 0 rgba(214,182,106,.55);}
+    70%{box-shadow:0 0 0 14px rgba(214,182,106,0);}
+    100%{box-shadow:0 0 0 0 rgba(214,182,106,0);}
+  }
+
+  /* ===== PROCESSO ===== */
+  .process-track{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:16px;
+  }
+
+  .process-track::before{
+    content:'';
+    position:absolute;
+    top:26px;
+    left:0;right:0;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--border) 8%, var(--border) 92%, transparent);
+  }
+
+  .process-track .process-line-fill{
+    position:absolute;
+    top:26px;
+    left:0;
+    height:1px;
+    width:0%;
+    background:linear-gradient(90deg, var(--color-accent), rgba(214,182,106,.2));
+    z-index:1;
+  }
+
+  .process-step{
+    position:relative;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .process-num{
+    width:52px;height:52px;
+    border-radius:50%;
+    background:var(--bg-primary);
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:16px;
+    font-weight:600;
+    color:var(--text-secondary);
+    margin-bottom:22px;
+    transition:border-color .4s ease, color .4s ease, background .4s ease, box-shadow .4s ease;
+  }
+
+  .process-step.is-active .process-num{
+    border-color:var(--color-accent);
+    color:var(--bg-primary);
+    background:linear-gradient(135deg,var(--color-accent),#e8d19c);
+    box-shadow:0 0 0 6px rgba(214,182,106,.12);
+  }
+
+  .process-step h3{
+    font-size:17px;
+    margin-bottom:8px;
+    color:var(--text);
+  }
+
+  .process-step p{
+    font-size:13.5px;
+    line-height:1.65;
+    color:var(--text-secondary);
+    max-width:220px;
+  }
+
+  /* ===== PORTFÓLIO ===== */
+  .portfolio-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:26px;
+  }
+
+  .portfolio-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+    transition:transform .45s cubic-bezier(.2,.7,.2,1), border-color .4s ease, box-shadow .4s ease;
+  }
+
+  .portfolio-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(214,182,106,.25);
+    box-shadow:0 30px 60px -25px rgba(0,0,0,.65);
+  }
+
+  .portfolio-thumb{
+    position:relative;
+    height:200px;
+    overflow:hidden;
+    background:linear-gradient(160deg, var(--bg-secondary), #0d1110);
+    border-bottom:1px solid var(--border);
+  }
+
+  .portfolio-thumb .mockup-window{
+    position:absolute;
+    inset:18px 18px auto 18px;
+    border-radius:10px 10px 0 0;
+    background:var(--bg-secondary);
+    border:1px solid var(--border);
+    padding:8px;
+    transition:transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+
+  .portfolio-card:hover .mockup-window{transform:translateY(-6px) scale(1.04);}
+
+  .portfolio-thumb .mockup-topbar{
+    display:flex;gap:5px;padding:0 3px 8px;
+  }
+  .portfolio-thumb .mockup-topbar span{
+    width:6px;height:6px;border-radius:50%;
+    background:rgba(255,255,255,.15);
+  }
+
+  .portfolio-thumb .mockup-body{
+    height:96px;
+    border-radius:6px;
+    background:linear-gradient(135deg, var(--proj-a, var(--color-primary)), var(--proj-b, var(--color-secondary)));
+    position:relative;
+    overflow:hidden;
+  }
+
+  .portfolio-thumb .mockup-body img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .5s ease;
+    filter:saturate(1.05) brightness(.96);
+  }
+
+  .portfolio-thumb .mockup-body img.logo-fit{
+    object-fit:contain;
+    padding:22px;
+    filter:none;
+  }
+
+  .portfolio-card:hover .mockup-body img{
+    transform:scale(1.08);
+    filter:saturate(1.15) brightness(1.02);
+  }
+
+  .portfolio-thumb .mockup-body::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(165deg, rgba(8,10,9,.05) 0%, rgba(8,10,9,.5) 100%),
+               linear-gradient(135deg, var(--proj-a, var(--color-primary)), var(--proj-b, var(--color-secondary)));
+    mix-blend-mode:color;
+    opacity:.35;
+    pointer-events:none;
+  }
+
+  .portfolio-category{
+    position:absolute;
+    top:14px;left:14px;
+    z-index:2;
+    font-size:11px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:6px 12px;
+    border-radius:100px;
+    background:rgba(8,10,9,.7);
+    backdrop-filter:blur(6px);
+    border:1px solid var(--border);
+    color:var(--color-accent);
+  }
+
+  .portfolio-info{padding:24px 24px 26px;}
+
+  .portfolio-info h3{
+    font-size:18px;
+    margin-bottom:8px;
+    color:var(--text);
+  }
+
+  .portfolio-info p{
+    font-size:14px;
+    line-height:1.65;
+    color:var(--text-secondary);
+    margin-bottom:18px;
+  }
+
+  .portfolio-view{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--text);
+    padding:9px 18px;
+    border-radius:100px;
+    border:1px solid var(--border);
+    transition:border-color .3s ease, background .3s ease, gap .3s ease;
+  }
+
+  .portfolio-view:hover{
+    border-color:rgba(214,182,106,.4);
+    background:rgba(255,255,255,.03);
+    gap:11px;
+  }
+
+  .portfolio-view svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;}
+
+  /* ===== DEPOIMENTOS ===== */
+  .testimonials-wrap{
+    position:relative;
+    max-width:900px;
+    margin:0 auto;
+    overflow:hidden;
+  }
+
+  .testimonials-track{
+    display:flex;
+    transition:transform .7s cubic-bezier(.65,0,.35,1);
+  }
+
+  .testimonial-card{
+    flex:0 0 100%;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:48px clamp(24px,6vw,64px);
+    text-align:center;
+  }
+
+  .testimonial-stars{
+    display:flex;
+    justify-content:center;
+    gap:4px;
+    margin-bottom:24px;
+  }
+
+  .testimonial-stars svg{
+    width:16px;height:16px;
+    fill:var(--color-accent);
+    stroke:none;
+  }
+
+  .testimonial-quote{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(18px,2.2vw,22px);
+    line-height:1.55;
+    color:var(--text);
+    max-width:620px;
+    margin:0 auto 32px;
+  }
+
+  .testimonial-person{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+  }
+
+  .testimonial-avatar{
+    width:46px;height:46px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--color-accent),var(--color-primary));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    color:var(--bg-primary);
+    flex-shrink:0;
+  }
+
+  .testimonial-person .who{text-align:left;}
+
+  .testimonial-person .who strong{
+    display:block;
+    font-size:14.5px;
+    color:var(--text);
+  }
+
+  .testimonial-person .who span{
+    font-size:12.5px;
+    color:var(--text-secondary);
+  }
+
+  .testimonials-dots{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:36px;
+  }
+
+  .testimonials-dots button{
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--border);
+    background-color:rgba(255,255,255,.14);
+    transition:background-color .3s ease, transform .3s ease, width .3s ease;
+    padding:0;
+  }
+
+  .testimonials-dots button.is-active{
+    background-color:var(--color-accent);
+    width:22px;
+    border-radius:100px;
+  }
+
+  /* ===== FAQ ===== */
+  .faq-list{
+    max-width:800px;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .faq-item{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    transition:border-color .35s ease;
+  }
+
+  .faq-item.is-open{border-color:rgba(214,182,106,.3);}
+
+  .faq-question{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    background:transparent;
+    padding:24px 26px;
+    text-align:left;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:15.5px;
+    font-weight:500;
+    color:var(--text);
+  }
+
+  .faq-icon{
+    width:32px;height:32px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    position:relative;
+    transition:border-color .35s ease, background .35s ease;
+  }
+
+  .faq-icon span{
+    position:absolute;
+    width:12px;height:1.5px;
+    background:var(--text);
+    transition:transform .35s ease;
+  }
+  .faq-icon span:last-child{transform:rotate(90deg);}
+
+  .faq-item.is-open .faq-icon{
+    border-color:var(--color-accent);
+    background:rgba(214,182,106,.1);
+  }
+  .faq-item.is-open .faq-icon span:last-child{transform:rotate(0deg);}
+
+  .faq-answer{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .5s cubic-bezier(.2,.7,.2,1);
+  }
+
+  .faq-answer-inner{
+    padding:0 26px 26px;
+    font-size:14.5px;
+    line-height:1.75;
+    color:var(--text-secondary);
+    max-width:640px;
+  }
+
+  /* ===== CTA FINAL ===== */
+  .cta-final{
+    position:relative;
+    border-radius:28px;
+    padding:80px clamp(24px,6vw,80px);
+    text-align:center;
+    background:
+      radial-gradient(ellipse 600px 400px at 20% 0%, rgba(14,90,79,.4), transparent 60%),
+      radial-gradient(ellipse 500px 400px at 85% 100%, rgba(214,182,106,.12), transparent 60%),
+      var(--bg-secondary);
+    border:1px solid var(--border);
+    overflow:hidden;
+  }
+
+  .cta-final::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image:radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 75%);
+  }
+
+  .cta-final-inner{position:relative; z-index:2;}
+
+  .cta-final h2{
+    font-size:clamp(28px,4vw,46px);
+    line-height:1.15;
+    max-width:640px;
+    margin:0 auto 20px;
+  }
+
+  .cta-final p{
+    font-size:16px;
+    color:var(--text-secondary);
+    max-width:480px;
+    margin:0 auto 36px;
+    line-height:1.7;
+  }
+
+  .cta-final .btn-primary{
+    padding:16px 36px;
+    font-size:15px;
+  }
+
+  .cta-final-actions{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer{
+    background:var(--bg-secondary);
+    border-top:1px solid var(--border);
+    padding:64px clamp(20px,5vw,64px) 32px;
+  }
+
+  .footer-inner{
+    max-width:1360px;
+    margin:0 auto;
+  }
+
+  .footer-top{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:48px;
+    padding-bottom:48px;
+    border-bottom:1px solid var(--border);
+  }
+
+  .footer-brand p{
+    margin-top:18px;
+    font-size:14px;
+    line-height:1.7;
+    color:var(--text-secondary);
+    max-width:320px;
+  }
+
+  .footer-col h4{
+    font-size:13.5px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--text-secondary);
+    font-weight:500;
+    margin-bottom:18px;
+  }
+
+  .footer-col ul{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .footer-col a{
+    font-size:14.5px;
+    color:var(--text-secondary);
+    transition:color .3s ease, padding-left .3s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .footer-col a:hover{color:var(--text); padding-left:4px;}
+
+  .footer-col a svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;flex-shrink:0;}
+
+  .footer-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+    padding-top:28px;
+    font-size:12.5px;
+    color:var(--text-secondary);
+  }
+
+  .footer-socials{display:flex; gap:14px;}
+
+  .footer-socials a{
+    width:36px;height:36px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .3s ease, transform .3s ease, background .3s ease;
+  }
+
+  .footer-socials a:hover{
+    border-color:rgba(214,182,106,.4);
+    transform:translateY(-3px);
+    background:rgba(255,255,255,.03);
+  }
+
+  .footer-socials a svg{width:16px;height:16px;stroke:var(--text);fill:none;stroke-width:1.6;}
+
+  /* ===== RESPONSIVE — SEÇÕES NOVAS ===== */
+  @media (max-width:980px){
+    .section{padding:110px clamp(20px,5vw,48px);}
+    .services-grid{grid-template-columns:repeat(2,1fr);}
+    .about-grid{grid-template-columns:1fr; gap:44px;}
+    .about-copy p{max-width:100%;}
+    .process-track{grid-template-columns:repeat(5,1fr); gap:10px;}
+    .process-step p{max-width:none;}
+    .portfolio-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-top{grid-template-columns:1fr 1fr; row-gap:36px;}
+    .footer-brand{grid-column:1 / -1;}
+  }
+
+  @media (max-width:720px){
+    .process-track{grid-template-columns:1fr; gap:36px;}
+    .process-track::before{display:none;}
+    .process-track .process-line-fill{display:none;}
+    .process-step{padding-left:0;}
+  }
+
+  @media (max-width:640px){
+    .section{padding:90px 20px;}
+    .section-header{margin-bottom:48px;}
+    .services-grid{grid-template-columns:1fr;}
+    .about-stats{grid-template-columns:1fr 1fr;}
+    .portfolio-grid{grid-template-columns:1fr;}
+    .cta-final{padding:56px 24px;}
+    .footer-top{grid-template-columns:1fr;}
+    .footer-bottom{flex-direction:column; align-items:flex-start;}
+  }
+
+  /* ===== MENU MOBILE ===== */
+  .mobile-menu{
+    position:fixed;
+    inset:0;
+    z-index:999;
+    background:rgba(8,10,9,.98);
+    backdrop-filter:blur(20px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:32px;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .4s ease, visibility .4s ease;
+  }
+
+  .mobile-menu.is-open{opacity:1; visibility:visible;}
+
+  .mobile-menu a{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:24px;
+    color:var(--text);
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .4s ease, transform .4s ease;
+  }
+
+  .mobile-menu.is-open a{opacity:1; transform:translateY(0);}
+  .mobile-menu.is-open a:nth-child(1){transition-delay:.05s;}
+  .mobile-menu.is-open a:nth-child(2){transition-delay:.1s;}
+  .mobile-menu.is-open a:nth-child(3){transition-delay:.15s;}
+  .mobile-menu.is-open a:nth-child(4){transition-delay:.2s;}
+  .mobile-menu.is-open a:nth-child(5){transition-delay:.25s;}
+
+  .menu-toggle.is-active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menu-toggle.is-active span:nth-child(2){opacity:0;}
+  .menu-toggle.is-active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+
+  :focus-visible{
+    outline:2px solid var(--color-accent);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <a href="#inicio" class="logo logo-brand" aria-label="JMG Service">
+    <svg class="logo-svg" viewBox="0 0 800 220" role="img" aria-hidden="true">
+      <title>JMG Service</title>
+      <rect width="800" height="220" rx="24" fill="#08120C"></rect>
+      <defs><linearGradient id="logoGrad" x1="0" x2="1"><stop offset="0%" stop-color="#22C55E"></stop><stop offset="100%" stop-color="#16A34A"></stop></linearGradient></defs>
+      <circle cx="95" cy="110" r="58" fill="none" stroke="url(#logoGrad)" stroke-width="10"></circle>
+      <path d="M70 128 L95 78 L120 128" fill="none" stroke="url(#logoGrad)" stroke-width="10" stroke-linecap="round"></path>
+      <text x="180" y="105" font-family="Arial" font-size="68" font-weight="700" fill="#F0FDF4">JMG</text>
+      <text x="182" y="150" font-family="Arial" font-size="28" letter-spacing="6" fill="#86EFAC">SERVICE</text>
+    </svg>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#inicio">Início</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+
+  <div class="nav-cta">
+    <a href="https://wa.me/5554997113266" class="btn-primary" target="_blank" rel="noopener">Solicitar Orçamento</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#inicio">Início</a>
+  <a href="#servicos">Serviços</a>
+  <a href="#projetos">Projetos</a>
+  <a href="#sobre">Sobre</a>
+  <a href="#contato">Contato</a>
+</div>
+
+<section class="hero" id="inicio">
+  <div class="hero-grid-bg"></div>
+  <div class="float-line fl1"></div>
+  <div class="float-line fl2"></div>
+  <div class="float-dot fd1"></div>
+  <div class="float-dot fd2"></div>
+  <div class="float-dot fd3"></div>
+
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-eyebrow">
+        <span class="dot">✦</span>
+        Sites, automações e marketing sob a mesma direção criativa
+      </div>
+
+      <h1>Transformamos ideias em <span class="accent-word">experiências digitais</span> que geram resultados.</h1>
+
+      <p class="lead">A JMG Service projeta sites, landing pages e automações com padrão de agência internacional — unindo design refinado, performance técnica e estratégia de marketing em um único processo.</p>
+
+      <div class="hero-actions">
+        <a href="https://wa.me/5554997113266" class="btn-primary" target="_blank" rel="noopener">Solicitar Orçamento</a>
+        <a href="#projetos" class="btn-secondary">Ver projetos ↗</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <h3>20+</h3>
+          <span>Projetos entregues</span>
+        </div>
+        <div class="stat">
+          <h3>98%</h3>
+          <span>Clientes satisfeitos</span>
+        </div>
+        <div class="stat">
+          <h3>4.9★</h3>
+          <span>Avaliação média</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="glow-orb"></div>
+      <div class="device-stack">
+        <div class="laptop">
+          <div class="laptop-screen">
+            <div class="laptop-topbar"><span></span><span></span><span></span></div>
+            <div class="laptop-content">
+              <div class="line w40"></div>
+              <div class="line w80"></div>
+              <div class="line w60"></div>
+              <div class="card-mini">
+                <div class="avatar"></div>
+                <div class="bars">
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="laptop-base"></div>
+        </div>
+
+        <div class="phone">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-notch"></div>
+              <div class="pdot"></div>
+              <div class="pline w70"></div>
+              <div class="pline w50"></div>
+              <div class="pline w70"></div>
+              <div class="pline w50"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- ===================== SERVIÇOS ===================== -->
+<section class="section" id="servicos" aria-labelledby="servicos-title">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow"><span class="dot">✦</span>O que fazemos</div>
+      <h2 class="section-title" id="servicos-title">Serviços projetados para <span class="accent-word">crescer</span> com o seu negócio</h2>
+      <p class="section-lead">Da primeira landing page à operação de marketing completa, cada entrega segue o mesmo padrão: design autoral, performance técnica e foco em resultado.</p>
+    </div>
+
+    <div class="services-grid">
+      <article class="service-card reveal">
+        <div class="icon-chip" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M8 21h8M12 18v3"></path><path d="M9 12l2 2 4-4"></path></svg>
+        </div>
+        <h3>Landing Pages</h3>
+        <p>Páginas de alta conversão, pensadas para transformar visitantes em clientes com copy estratégico e design sob medida.</p>
+        <a href="#contato" class="card-link">Saiba mais <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+      </article>
+
+      <article class="service-card reveal">
+        <div class="icon-chip" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 21V7l8-4 8 4v14"></path><path d="M9 21v-6h6v6M9 12h.01M15 12h.01M9 9h.01M15 9h.01"></path></svg>
+        </div>
+        <h3>Sites Institucionais</h3>
+        <p>Presença digital sólida para a sua marca, com navegação intuitiva, identidade visual própria e performance impecável.</p>
+        <a href="#contato" class="card-link">Saiba mais <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+      </article>
+
+      <article class="service-card reveal">
+        <div class="icon-chip" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg>
+        </div>
+        <h3>Lojas Virtuais</h3>
+        <p>E-commerces completos, do catálogo ao checkout, prontos para vender com segurança e experiência de compra fluida.</p>
+        <a href="#contato" class="card-link">Saiba mais <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+      </article>
+
+      <article class="service-card reveal">
+        <div class="icon-chip" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.5"></circle><path d="M14.7 14.7 20 20"></path><path d="M7 11l2-2.5L10.5 10 13 6.5"></path></svg>
+        </div>
+        <h3>SEO</h3>
+        <p>Estratégias de otimização que colocam o seu site nas primeiras posições e atraem tráfego qualificado de forma orgânica.</p>
+        <a href="#contato" class="card-link">Saiba mais <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOBRE ===================== -->
+<section class="section section-alt" id="sobre" aria-labelledby="sobre-title">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-copy reveal">
+        <div class="section-eyebrow"><span class="dot">✦</span>Quem somos</div>
+        <h2 class="section-title" id="sobre-title">Uma direção criativa única, do primeiro esboço à entrega final</h2>
+        <p>A JMG Service nasceu para eliminar a distância entre agências convencionais e o padrão que grandes marcas exigem. Reunimos design, tecnologia e estratégia em um só time — sem intermediários, sem retrabalho.</p>
+        <p>Cada projeto é conduzido com atenção artesanal aos detalhes, unindo estética refinada a decisões técnicas que realmente impactam performance e conversão.</p>
+      </div>
+
+      <div class="about-stats">
+        <div class="about-stat reveal">
+          <h3><span class="counter" data-target="20" data-suffix="+">20+</span></h3>
+          <span>Projetos entregues</span>
+        </div>
+        <div class="about-stat reveal">
+          <h3><span class="counter" data-target="99.4" data-suffix="%">99,4%</span></h3>
+          <span>Clientes satisfeitos</span>
+        </div>
+        <div class="about-stat reveal">
+          <h3><span class="counter" data-target="3" data-suffix="+">3+</span></h3>
+          <span>Anos de mercado</span>
+        </div>
+        <div class="about-stat reveal">
+          <h3><span class="pulse-dot" aria-hidden="true"></span>Ágil</h3>
+          <span>Suporte com resposta em poucas horas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESSO ===================== -->
+<section class="section" id="processo" aria-labelledby="processo-title">
+  <div class="section-inner">
+    <div class="section-header center reveal">
+      <div class="section-eyebrow"><span class="dot">✦</span>Como trabalhamos</div>
+      <h2 class="section-title" id="processo-title">Um processo claro, em 5 etapas</h2>
+      <p class="section-lead">Transparência do primeiro contato à entrega final — você acompanha cada fase do projeto.</p>
+    </div>
+
+    <div class="process-track" id="processTrack">
+      <div class="process-line-fill" id="processFill"></div>
+
+      <div class="process-step reveal">
+        <div class="process-num">01</div>
+        <h3>Planejamento</h3>
+        <p>Entendemos objetivos, público e referências para traçar a estratégia certa.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">02</div>
+        <h3>Design</h3>
+        <p>Criamos a identidade visual e o layout, alinhados à sua marca e ao seu público.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">03</div>
+        <h3>Desenvolvimento</h3>
+        <p>Transformamos o design em um site rápido, responsivo e tecnicamente sólido.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">04</div>
+        <h3>Otimização</h3>
+        <p>Testamos performance, SEO e usabilidade antes de qualquer entrega.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">05</div>
+        <h3>Entrega</h3>
+        <p>Publicamos o projeto e acompanhamos os primeiros resultados junto com você.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PORTFÓLIO ===================== -->
+<section class="section section-alt" id="projetos" aria-labelledby="projetos-title">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow"><span class="dot">✦</span>Projetos</div>
+      <h2 class="section-title" id="projetos-title">Um portfólio que fala por si</h2>
+      <p class="section-lead">Uma seleção de projetos recentes — cada um construído sob medida para o negócio do cliente.</p>
+    </div>
+
+    <div class="portfolio-grid">
+      <article class="portfolio-card reveal">
+        <div class="portfolio-thumb" style="--proj-a:#0E5A4F;--proj-b:#12352E;">
+          <span class="portfolio-category">Delivery &amp; Cardápio</span>
+          <div class="mockup-window">
+            <div class="mockup-topbar"><span></span><span></span><span></span></div>
+            <div class="mockup-body"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=70&auto=format&fit=crop" alt="Imagem do site Brasa Prime Burger" loading="lazy" width="400" height="220"></div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <h3>Brasa Prime Burger</h3>
+          <p>Cardápio digital com carrinho, combos e pedido direto pelo WhatsApp para uma hamburgueria artesanal.</p>
+          <a href="https://o-verdadeiro-brasa-burguer.vercel.app/" class="portfolio-view" target="_blank" rel="noopener">Ver projeto <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"></path></svg></a>
+        </div>
+      </article>
+
+      <article class="portfolio-card reveal">
+        <div class="portfolio-thumb" style="--proj-a:#D6B66A;--proj-b:#12352E;">
+          <span class="portfolio-category">Landing Page</span>
+          <div class="mockup-window">
+            <div class="mockup-topbar"><span></span><span></span><span></span></div>
+            <div class="mockup-body"><img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500&q=70&auto=format&fit=crop" alt="Imagem do site Santo Pastel" loading="lazy" width="400" height="220"></div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <h3>Santo Pastel</h3>
+          <p>Landing page de conversão para pastelaria, com cardápio, promoções e depoimentos de clientes.</p>
+          <a href="https://santo-pastel.vercel.app/" class="portfolio-view" target="_blank" rel="noopener">Ver projeto <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"></path></svg></a>
+        </div>
+      </article>
+
+      <article class="portfolio-card reveal">
+        <div class="portfolio-thumb" style="--proj-a:#12352E;--proj-b:#0E5A4F;">
+          <span class="portfolio-category">Institucional</span>
+          <div class="mockup-window">
+            <div class="mockup-topbar"><span></span><span></span><span></span></div>
+            <div class="mockup-body"><img class="logo-fit" src="https://advocacia-b-ck-e-hoffmann.vercel.app/assets/images/logo.png" alt="Logotipo do site Advocacia Böck e Hoffmann" loading="lazy" width="400" height="220"></div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <h3>Advocacia Böck e Hoffmann</h3>
+          <p>Site institucional para escritório de advocacia, com áreas de atuação e captação de contato pelo WhatsApp.</p>
+          <a href="https://advocacia-b-ck-e-hoffmann.vercel.app/" class="portfolio-view" target="_blank" rel="noopener">Ver projeto <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"></path></svg></a>
+        </div>
+      </article>
+
+      <article class="portfolio-card reveal">
+        <div class="portfolio-thumb" style="--proj-a:#080808;--proj-b:#b08d46;">
+          <span class="portfolio-category">Institucional</span>
+          <div class="mockup-window">
+            <div class="mockup-topbar"><span></span><span></span><span></span></div>
+            <div class="mockup-body"><img class="logo-fit" src="https://advogado-valenca.vercel.app/logo.svg" alt="Logotipo do site Valença & Monteiro Advogados" loading="lazy" width="400" height="220"></div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <h3>Valença & Monteiro Advogados</h3>
+          <p>Site institucional para escritório de advocacia, com áreas de atuação, agendamento de consulta e atendimento direto pelo WhatsApp.</p>
+          <a href="https://advogado-valenca.vercel.app/" class="portfolio-view" target="_blank" rel="noopener">Ver projeto <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"></path></svg></a>
+        </div>
+      </article>
+
+      <article class="portfolio-card reveal">
+        <div class="portfolio-thumb" style="--proj-a:#12352E;--proj-b:#D6B66A;">
+          <span class="portfolio-category">E-commerce</span>
+          <div class="mockup-window">
+            <div class="mockup-topbar"><span></span><span></span><span></span></div>
+            <div class="mockup-body"><img src="https://images.unsplash.com/photo-1622597467836-f3285f2131b8?w=500&q=70&auto=format&fit=crop" alt="Imagem do site Fresh Go" loading="lazy" width="400" height="220"></div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <h3>Fresh Go</h3>
+          <p>E-commerce de sucos naturais com catálogo de produtos, benefícios e pedido direto pelo WhatsApp.</p>
+          <a href="https://fresh-go-eta.vercel.app/" class="portfolio-view" target="_blank" rel="noopener">Ver projeto <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"></path></svg></a>
+        </div>
+      </article>
+
+      <article class="portfolio-card reveal">
+        <div class="portfolio-thumb" style="--proj-a:#D6B66A;--proj-b:#0E5A4F;">
+          <span class="portfolio-category">Institucional</span>
+          <div class="mockup-window">
+            <div class="mockup-topbar"><span></span><span></span><span></span></div>
+            <div class="mockup-body"><img src="https://loremflickr.com/500/400/barber,portrait?lock=105" alt="Imagem do site Winslow & Ferro" loading="lazy" width="400" height="220"></div>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <h3>Winslow &amp; Ferro</h3>
+          <p>Site institucional premium para barbearia clássica, com catálogo de serviços e agendamento pelo WhatsApp.</p>
+          <a href="https://barbearia-pi-rust.vercel.app/" class="portfolio-view" target="_blank" rel="noopener">Ver projeto <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"></path></svg></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DEPOIMENTOS ===================== -->
+<section class="section" id="depoimentos" aria-labelledby="depoimentos-title">
+  <div class="section-inner">
+    <div class="section-header center reveal">
+      <div class="section-eyebrow"><span class="dot">✦</span>Depoimentos</div>
+      <h2 class="section-title" id="depoimentos-title">O que dizem sobre trabalhar com a JMG</h2>
+    </div>
+
+    <div class="testimonials-wrap reveal" id="testimonialsWrap">
+      <div class="testimonials-track" id="testimonialsTrack">
+        <div class="testimonial-card">
+          <div class="testimonial-stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+          </div>
+          <p class="testimonial-quote">"A JMG criou um cardápio digital completo pra gente, com carrinho e pedido direto pelo WhatsApp. Ficou muito mais fácil vender e o site passa a qualidade do nosso produto."</p>
+          <div class="testimonial-person">
+            <div class="testimonial-avatar" aria-hidden="true">EB</div>
+            <div class="who"><strong>Equipe Brasa Prime Burger</strong><span>Brasa Prime Burger</span></div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+          </div>
+          <p class="testimonial-quote">"A landing page ficou linda e rápida. Os clientes elogiam bastante e sentimos que os pedidos pelo WhatsApp aumentaram depois que o site foi ao ar."</p>
+          <div class="testimonial-person">
+            <div class="testimonial-avatar" aria-hidden="true">SP</div>
+            <div class="who"><strong>Equipe Santo Pastel</strong><span>Santo Pastel</span></div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+          </div>
+          <p class="testimonial-quote">"Precisávamos de um site que transmitisse a seriedade do nosso trabalho, e a JMG entregou exatamente isso: um site institucional elegante, técnico e alinhado à nossa atuação."</p>
+          <div class="testimonial-person">
+            <div class="testimonial-avatar" aria-hidden="true">FB</div>
+            <div class="who"><strong>Dr. Fernando Böck</strong><span>Advocacia Böck e Hoffmann</span></div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+          </div>
+          <p class="testimonial-quote">"Um site simples, rápido e do jeitinho que a gente precisava, com pedido direto pelo WhatsApp. A JMG entendeu nosso negócio desde a primeira conversa."</p>
+          <div class="testimonial-person">
+            <div class="testimonial-avatar" aria-hidden="true">EP</div>
+            <div class="who"><strong>Equipe Eu Amo Pastel Carazinho</strong><span>Eu Amo Pastel Carazinho</span></div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+          </div>
+          <p class="testimonial-quote">"O site trouxe muito mais profissionalismo pra marca. A JMG organizou nosso catálogo de produtos de um jeito bonito e fácil de navegar."</p>
+          <div class="testimonial-person">
+            <div class="testimonial-avatar" aria-hidden="true">FG</div>
+            <div class="who"><strong>Equipe Fresh Go</strong><span>Fresh Go</span></div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"></path></svg>
+          </div>
+          <p class="testimonial-quote">"Queríamos um site à altura da nossa tradição, e a JMG entregou com muita precisão: elegância, identidade visual forte e agendamento facilitado pelo WhatsApp."</p>
+          <div class="testimonial-person">
+            <div class="testimonial-avatar" aria-hidden="true">EW</div>
+            <div class="who"><strong>Everard Winslow</strong><span>Winslow &amp; Ferro</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonials-dots" id="testimonialsDots" role="tablist" aria-label="Selecionar depoimento"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="section section-alt" id="faq" aria-labelledby="faq-title">
+  <div class="section-inner">
+    <div class="section-header center reveal">
+      <div class="section-eyebrow"><span class="dot">✦</span>Dúvidas frequentes</div>
+      <h2 class="section-title" id="faq-title">Perguntas que recebemos com frequência</h2>
+    </div>
+
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Quanto tempo leva para desenvolver um projeto?
+          <span class="faq-icon"><span></span><span></span></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">O prazo varia conforme a complexidade, mas a maioria dos projetos fica pronta entre 2 e 6 semanas, do planejamento à entrega.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Vocês oferecem suporte após a entrega?
+          <span class="faq-icon"><span></span><span></span></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Sim. Todo projeto inclui um período de suporte pós-entrega, e também oferecemos planos de manutenção contínua.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Como funciona o orçamento?
+          <span class="faq-icon"><span></span><span></span></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Enviamos uma proposta personalizada após entender seu objetivo, escopo e prazo — sem taxas escondidas.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Posso pedir ajustes durante o desenvolvimento?
+          <span class="faq-icon"><span></span><span></span></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Sim, o processo é colaborativo. Você acompanha cada etapa e pode solicitar ajustes nos pontos de validação.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Vocês trabalham com clientes de outros estados?
+          <span class="faq-icon"><span></span><span></span></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Sim, atendemos clientes em todo o Brasil de forma 100% remota, com a mesma qualidade e atenção aos detalhes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA FINAL ===================== -->
+<section class="section" id="contato" aria-labelledby="cta-title">
+  <div class="section-inner">
+    <div class="cta-final reveal">
+      <div class="cta-final-inner">
+        <h2 id="cta-title">Pronto para elevar o nível do seu negócio online?</h2>
+        <p>Solicite um orçamento sem compromisso e descubra como podemos transformar sua presença digital.</p>
+        <div class="cta-final-actions">
+          <a href="https://wa.me/5554997113266" class="btn-primary" target="_blank" rel="noopener">Solicitar Orçamento</a>
+          <a href="https://wa.me/555493643788?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20falar%20sobre%20um%20projeto." class="btn-secondary" target="_blank" rel="noopener">Falar no WhatsApp ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#inicio" class="logo"><span class="logo-mark"></span>JMG <span>Service</span></a>
+        <p>Sites, automações e marketing digital sob a mesma direção criativa — um único time do planejamento à entrega.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#projetos">Projetos</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="https://wa.me/5554997113266" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5Z"></path></svg>WhatsApp</a></li>
+          <li><a href="mailto:jmgservice26@gmail.com"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"></path><path d="m4 6 8 7 8-7"></path></svg>jmgservice26@gmail.com</a></li>
+          <li><a href="https://www.instagram.com/jmg_services01/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="1"></circle></svg>@jmg_services01</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 JMG Service. Todos os direitos reservados.</span>
+      <div class="footer-socials">
+        <a href="https://wa.me/5554997113266" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5Z"></path></svg></a>
+        <a href="https://www.instagram.com/jmg_services01/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="1"></circle></svg></a>
+        <a href="mailto:jmgservice26@gmail.com" aria-label="E-mail"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"></path><path d="m4 6 8 7 8-7"></path></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ============================================================
+     Toda a lógica essencial (navbar, menu mobile, FAQ, carrossel
+     de depoimentos) roda de forma independente do GSAP. As
+     animações de scroll/contadores/parallax só entram como reforço
+     visual quando a biblioteca carrega — se por qualquer motivo o
+     GSAP não carregar (rede, bloqueio, cache), o site continua
+     funcional e 100% visível.
+     ============================================================ */
+
+  /* ===== NAVBAR ON SCROLL ===== */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 40){
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+
+  /* ===== MENU MOBILE ===== */
+  const menuToggle = document.querySelector('.menu-toggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  function closeMenu(){
+    menuToggle.classList.remove('is-active');
+    mobileMenu.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('is-open');
+    menuToggle.classList.toggle('is-active');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  /* ===== FAQ ACCORDION ===== */
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    const question = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
+
+    question.addEventListener('click', () => {
+      const isOpen = item.classList.contains('is-open');
+
+      document.querySelectorAll('.faq-item.is-open').forEach((openItem) => {
+        if(openItem !== item){
+          openItem.classList.remove('is-open');
+          openItem.querySelector('.faq-question').setAttribute('aria-expanded','false');
+          openItem.querySelector('.faq-answer').style.maxHeight = null;
+        }
+      });
+
+      if(isOpen){
+        item.classList.remove('is-open');
+        question.setAttribute('aria-expanded','false');
+        answer.style.maxHeight = null;
+      } else {
+        item.classList.add('is-open');
+        question.setAttribute('aria-expanded','true');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ===== CARROSSEL DE DEPOIMENTOS ===== */
+  const track = document.getElementById('testimonialsTrack');
+  const dotsWrap = document.getElementById('testimonialsDots');
+  const wrap = document.getElementById('testimonialsWrap');
+  const slides = track ? Array.from(track.children) : [];
+  let current = 0;
+  let autoplayTimer;
+
+  function buildDots(){
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.setAttribute('role','tab');
+      b.setAttribute('aria-label', 'Ir para depoimento ' + (i + 1));
+      if(i === 0) b.classList.add('is-active');
+      b.addEventListener('click', () => goTo(i, true));
+      dotsWrap.appendChild(b);
+    });
+  }
+
+  function goTo(index, manual){
+    current = (index + slides.length) % slides.length;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle('is-active', i === current));
+    if(manual) restartAutoplay();
+  }
+
+  function startAutoplay(){
+    autoplayTimer = setInterval(() => goTo(current + 1), 5500);
+  }
+
+  function restartAutoplay(){
+    clearInterval(autoplayTimer);
+    startAutoplay();
+  }
+
+  if(track && slides.length){
+    buildDots();
+    startAutoplay();
+    wrap.addEventListener('mouseenter', () => clearInterval(autoplayTimer));
+    wrap.addEventListener('mouseleave', startAutoplay);
+  }
+
+  /* ===== CONTADORES — fallback sem GSAP ===== */
+  function setCountersInstant(){
+    document.querySelectorAll('.counter').forEach((counter) => {
+      if(counter.dataset.filled) return;
+      counter.textContent = counter.dataset.target.replace('.', ',') + (counter.dataset.suffix || '');
+    });
+  }
+
+  /* ===== ANIMAÇÕES AVANÇADAS (GSAP) — reforço opcional ===== */
+  const hasGSAP = (typeof gsap !== 'undefined') && (typeof ScrollTrigger !== 'undefined');
+
+  if(hasGSAP){
+    try{
+      gsap.registerPlugin(ScrollTrigger);
+
+      /* scroll reveal genérico */
+      gsap.utils.toArray('.reveal').forEach((el) => {
+        gsap.fromTo(el,
+          { opacity:0, y:32 },
+          {
+            opacity:1, y:0, duration:.9, ease:'power3.out',
+            scrollTrigger:{ trigger:el, start:'top 85%', toggleActions:'play none none none' }
+          }
+        );
+      });
+
+      /* stagger interno dos cards de serviços */
+      gsap.utils.toArray('.service-card').forEach((card, i) => {
+        gsap.fromTo(card, { opacity:0, y:36 }, {
+          opacity:1, y:0, duration:.7, ease:'power3.out', delay:(i % 2) * .08,
+          scrollTrigger:{ trigger:card, start:'top 88%', toggleActions:'play none none none' }
+        });
+      });
+
+      gsap.utils.toArray('.portfolio-card').forEach((card, i) => {
+        gsap.fromTo(card, { opacity:0, y:36 }, {
+          opacity:1, y:0, duration:.7, ease:'power3.out', delay:(i % 3) * .08,
+          scrollTrigger:{ trigger:card, start:'top 88%', toggleActions:'play none none none' }
+        });
+      });
+
+      gsap.utils.toArray('.about-stat').forEach((card, i) => {
+        gsap.fromTo(card, { opacity:0, y:24 }, {
+          opacity:1, y:0, duration:.6, ease:'power3.out', delay:i * .08,
+          scrollTrigger:{ trigger:card, start:'top 90%', toggleActions:'play none none none' }
+        });
+      });
+
+      /* contadores animados (IntersectionObserver — independe de recálculo de posições do ScrollTrigger) */
+      const counterEls = document.querySelectorAll('.counter');
+      if(counterEls.length){
+        const counterObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            const counter = entry.target;
+            if(!entry.isIntersecting || counter.dataset.filled) return;
+            counter.dataset.filled = '1';
+            counterObserver.unobserve(counter);
+
+            const target = parseFloat(counter.dataset.target);
+            const decimals = (counter.dataset.target.split('.')[1] || '').length;
+            const suffix = counter.dataset.suffix || '';
+            const obj = { val:0 };
+
+            gsap.to(obj, {
+              val:target,
+              duration:1.8,
+              ease:'power2.out',
+              onUpdate:() => {
+                counter.textContent = (decimals ? obj.val.toFixed(decimals).replace('.', ',') : Math.round(obj.val)) + suffix;
+              }
+            });
+          });
+        }, { threshold:.4 });
+
+        counterEls.forEach((counter) => counterObserver.observe(counter));
+      }
+
+      /* timeline do processo */
+      const processSteps = gsap.utils.toArray('.process-step');
+      const processFill = document.getElementById('processFill');
+
+      if(processSteps.length){
+        ScrollTrigger.create({
+          trigger:'#processTrack',
+          start:'top 75%',
+          end:'bottom 60%',
+          onUpdate:(self) => {
+            const progress = self.progress;
+            if(processFill) processFill.style.width = (progress * 100) + '%';
+            const activeCount = Math.round(progress * processSteps.length);
+            processSteps.forEach((step, i) => {
+              step.classList.toggle('is-active', i < activeCount);
+            });
+          }
+        });
+      }
+
+      /* parallax leve no hero */
+      const heroVisual = document.querySelector('.hero-visual');
+      const glowOrb = document.querySelector('.glow-orb');
+
+      if(heroVisual){
+        window.addEventListener('mousemove', (e) => {
+          const x = (e.clientX / window.innerWidth - .5) * 18;
+          const y = (e.clientY / window.innerHeight - .5) * 18;
+          gsap.to(heroVisual, { x:x, y:y, duration:1.1, ease:'power2.out' });
+        });
+      }
+
+      gsap.to('.hero-grid-bg', {
+        yPercent:14,
+        ease:'none',
+        scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:.6 }
+      });
+
+      if(glowOrb){
+        gsap.to(glowOrb, {
+          yPercent:20,
+          ease:'none',
+          scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:.6 }
+        });
+      }
+
+      /* fallback de segurança: garante que nada fique invisível caso
+         algum ScrollTrigger não dispare (ex.: página curta, resize) */
+      window.addEventListener('load', () => {
+        setTimeout(() => ScrollTrigger.refresh(), 300);
+      });
+
+    } catch(err){
+      console.error('Animações GSAP falharam, seguindo sem elas:', err);
+      document.querySelectorAll('.reveal, .service-card, .portfolio-card, .about-stat').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      setCountersInstant();
+    }
+  } else {
+    /* GSAP não carregou: garante números preenchidos e nada escondido */
+    setCountersInstant();
+  }
+</script>
+
+</body>
+</html>
