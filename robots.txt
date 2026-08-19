@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jmgservicebr26-three.vercel.app/sitemap.xml
