@@ -195,9 +195,28 @@
     padding:140px clamp(20px,5vw,64px) 80px;
     overflow:hidden;
     background:
-      radial-gradient(ellipse 700px 500px at 15% 20%, rgba(14,90,79,.35), transparent 60%),
-      radial-gradient(ellipse 600px 600px at 85% 75%, rgba(18,53,46,.5), transparent 60%),
+      radial-gradient(ellipse 780px 560px at 12% 12%, rgba(14,90,79,.42), transparent 60%),
+      radial-gradient(ellipse 620px 620px at 88% 78%, rgba(214,182,106,.16), transparent 62%),
+      radial-gradient(ellipse 700px 500px at 85% 15%, rgba(18,53,46,.55), transparent 60%),
       var(--bg-primary);
+  }
+
+  .hero-grain{
+    position:absolute;
+    inset:0;
+    opacity:.35;
+    pointer-events:none;
+    z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;
+  }
+
+  .hero-vignette{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:linear-gradient(180deg, rgba(8,10,9,0) 55%, rgba(8,10,9,.9) 100%);
   }
 
   .hero-grid-bg{
@@ -228,13 +247,16 @@
     display:inline-flex;
     align-items:center;
     gap:10px;
-    padding:8px 16px 8px 8px;
+    padding:8px 18px 8px 8px;
     border-radius:100px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.02);
+    border:1px solid rgba(214,182,106,.22);
+    background:rgba(255,255,255,.035);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 8px 24px -12px rgba(0,0,0,.5);
     font-size:12.5px;
     color:var(--text-secondary);
-    margin-bottom:28px;
+    margin-bottom:30px;
     animation:fadeUp .8s ease .1s both;
   }
 
@@ -244,29 +266,35 @@
     background:linear-gradient(135deg,var(--color-accent),var(--color-primary));
     display:flex;align-items:center;justify-content:center;
     font-size:10px;
+    box-shadow:0 0 0 3px rgba(214,182,106,.12);
   }
 
   .hero h1{
-    font-size:clamp(38px,4.6vw,66px);
-    line-height:1.06;
+    font-size:clamp(40px,5vw,72px);
+    line-height:1.05;
+    letter-spacing:-0.025em;
     color:var(--text);
-    max-width:640px;
+    max-width:660px;
+    text-wrap:balance;
     animation:fadeUp .9s ease .2s both;
   }
 
   .hero h1 .accent-word{
-    background:linear-gradient(135deg,var(--color-accent),#e8d19c);
+    position:relative;
+    background:linear-gradient(135deg,var(--color-accent) 10%,#f1ddac 50%,var(--color-accent) 90%);
+    background-size:200% auto;
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent;
+    animation:shine 6s linear infinite;
   }
 
   .hero p.lead{
-    margin-top:26px;
-    font-size:17px;
-    line-height:1.65;
+    margin-top:28px;
+    font-size:17.5px;
+    line-height:1.68;
     color:var(--text-secondary);
-    max-width:480px;
+    max-width:490px;
     animation:fadeUp .9s ease .32s both;
   }
 
@@ -278,7 +306,12 @@
     animation:fadeUp .9s ease .44s both;
   }
 
-  .hero-actions .btn-primary{padding:15px 30px; font-size:14.5px;}
+  .hero-actions .btn-primary{
+    padding:16px 32px;
+    font-size:14.5px;
+    position:relative;
+    box-shadow:0 10px 34px -10px rgba(14,90,79,.65), inset 0 1px 0 rgba(255,255,255,.12);
+  }
   .hero-actions .btn-secondary{
     padding:15px 28px;
     font-size:14.5px;
@@ -287,23 +320,32 @@
 
   .hero-stats{
     display:flex;
-    gap:44px;
+    gap:0;
     margin-top:64px;
-    padding-top:32px;
+    padding-top:30px;
     border-top:1px solid var(--border);
     max-width:520px;
     animation:fadeUp .9s ease .56s both;
   }
 
+  .hero-stats .stat{
+    padding:0 32px;
+    border-right:1px solid var(--border);
+  }
+  .hero-stats .stat:first-child{padding-left:0;}
+  .hero-stats .stat:last-child{border-right:none;}
+
   .hero-stats .stat h3{
-    font-size:26px;
+    font-size:32px;
     color:var(--text);
     margin-bottom:4px;
+    font-family:'Space Grotesk',sans-serif;
   }
 
   .hero-stats .stat span{
     font-size:12.5px;
     color:var(--text-secondary);
+    white-space:nowrap;
   }
 
   /* ===== MOCKUP ===== */
@@ -327,6 +369,81 @@
     z-index:0;
     animation:pulse 7s ease-in-out infinite;
   }
+
+  .glow-ring{
+    position:absolute;
+    width:480px;height:480px;
+    border-radius:50%;
+    border:1px solid rgba(214,182,106,.16);
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    z-index:0;
+  }
+  .glow-ring::after{
+    content:'';
+    position:absolute;
+    inset:-1px;
+    border-radius:50%;
+    border:1px dashed rgba(255,255,255,.06);
+    animation:spinSlow 40s linear infinite;
+  }
+
+  .float-badge{
+    position:absolute;
+    z-index:4;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 16px;
+    border-radius:14px;
+    background:rgba(19,23,22,.75);
+    border:1px solid var(--border);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 20px 40px -14px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.06);
+    font-size:12.5px;
+    color:var(--text);
+    animation:floatSlow 5.5s ease-in-out infinite;
+  }
+
+  .float-badge .ico{
+    width:26px;height:26px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;
+    flex-shrink:0;
+  }
+
+  .float-badge.badge-top{
+    top:6%;left:-4%;
+    animation-delay:.2s;
+    animation-name:floatBadge;
+  }
+  .float-badge.badge-top .ico{background:linear-gradient(135deg,var(--color-accent),#e8d19c); color:#0E1210;}
+
+  .float-badge.badge-bottom{
+    bottom:8%;left:2%;
+    animation-delay:1s;
+    animation-name:floatBadge;
+  }
+  .float-badge.badge-bottom .ico{background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));}
+
+  .float-badge.badge-right{
+    top:34%;right:-9%;
+    animation-delay:.6s;
+    animation-name:floatBadge;
+  }
+  .float-badge.badge-right .ico{background:linear-gradient(135deg,var(--color-accent),#e8d19c); color:#0E1210;}
+
+  .float-badge.badge-corner{
+    top:0%;right:8%;
+    animation-delay:1.4s;
+    animation-name:floatBadge;
+  }
+  .float-badge.badge-corner .ico{background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));}
+
+  .float-badge strong{display:block; font-size:13.5px; font-weight:600;}
+  .float-badge small{display:block; font-size:11px; color:var(--text-secondary); font-weight:400;}
 
   .device-stack{
     position:relative;
@@ -367,11 +484,32 @@
   .laptop-content{
     background:linear-gradient(160deg, var(--card), #0d1110);
     border-radius:8px;
-    padding:20px;
+    padding:16px 18px;
     height:230px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
     position:relative;
     overflow:hidden;
     border:1px solid var(--border);
+  }
+
+  .mini-nav{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .mini-nav .mini-logo{
+    width:16px;height:16px;border-radius:5px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--color-accent),var(--color-primary));
+  }
+  .mini-nav .mini-links{display:flex;gap:8px;}
+  .mini-nav .mini-links span{width:20px;height:4px;border-radius:2px;background:rgba(255,255,255,.12);}
+  .mini-nav .mini-cta{
+    margin-left:auto;
+    width:46px;height:13px;border-radius:20px;
+    background:rgba(214,182,106,.4);
+    border:1px solid rgba(214,182,106,.5);
   }
 
   .laptop-content .line{
@@ -384,31 +522,64 @@
   .laptop-content .line.w40{width:40%; background:rgba(214,182,106,.35);}
   .laptop-content .line.w80{width:80%;}
 
-  .laptop-content .card-mini{
-    position:absolute;
-    bottom:18px;left:18px;right:18px;
-    height:64px;
-    border-radius:8px;
-    background:linear-gradient(120deg, rgba(14,90,79,.5), rgba(18,53,46,.3));
-    border:1px solid rgba(255,255,255,.06);
-    display:flex;
+  .mini-hero .mini-headline{margin-bottom:12px;}
+  .mini-hero .mini-cta-pill{
+    display:inline-flex;
     align-items:center;
-    padding:0 16px;
-    gap:10px;
+    gap:6px;
+    padding:6px 14px;
+    border-radius:20px;
+    background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));
+    border:1px solid rgba(255,255,255,.1);
+  }
+  .mini-hero .mini-cta-pill span{
+    width:34px;height:6px;border-radius:3px;
+    background:rgba(255,255,255,.7);
   }
 
-  .laptop-content .card-mini .avatar{
-    width:30px;height:30px;
-    border-radius:50%;
-    background:linear-gradient(135deg,var(--color-accent),var(--color-primary));
-    flex-shrink:0;
+  .mini-bottom{
+    display:flex;
+    gap:12px;
+    height:64px;
+    margin-top:auto;
+    padding-top:12px;
+    border-top:1px solid var(--border);
   }
 
-  .laptop-content .card-mini .bars{flex:1;}
-  .laptop-content .card-mini .bars div{
-    height:6px;border-radius:3px;background:rgba(255,255,255,.12);margin-bottom:6px;
+  .mini-chart{
+    flex:1.3;
+    display:flex;
+    align-items:flex-end;
+    gap:6px;
   }
-  .laptop-content .card-mini .bars div:last-child{width:60%; margin-bottom:0;}
+  .mini-chart .bar{
+    flex:1;
+    border-radius:4px 4px 1px 1px;
+    background:linear-gradient(180deg, var(--color-accent), rgba(14,90,79,.55));
+    opacity:.85;
+  }
+  .mini-chart .bar:last-child{opacity:1;}
+
+  .mini-review{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:7px;
+    padding:0 12px;
+    border-radius:8px;
+    background:linear-gradient(120deg, rgba(14,90,79,.4), rgba(18,53,46,.25));
+    border:1px solid rgba(255,255,255,.06);
+  }
+  .mini-review .mini-stars{display:flex; gap:3px;}
+  .mini-review .mini-stars span{
+    width:8px;height:8px;
+    background:var(--color-accent);
+    clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  }
+  .mini-review .mini-r-line{height:6px;border-radius:3px;background:rgba(255,255,255,.12);}
+  .mini-review .mini-r-line.w80{width:80%;}
+  .mini-review .mini-r-line.w50{width:50%;}
 
   .laptop-base{
     height:14px;
@@ -448,33 +619,93 @@
     background:linear-gradient(160deg, var(--card), #0d1110);
     border-radius:20px;
     height:290px;
-    padding:16px 12px;
+    padding:16px 12px 12px;
     border:1px solid var(--border);
     position:relative;
     overflow:hidden;
+    display:flex;
+    flex-direction:column;
   }
 
   .phone-notch{
     width:44px;height:5px;
     background:rgba(255,255,255,.12);
     border-radius:4px;
-    margin:0 auto 18px;
+    margin:0 auto 16px;
   }
 
-  .phone-screen .pline{
-    height:6px;border-radius:3px;
-    background:rgba(255,255,255,.08);
-    margin-bottom:10px;
+  .chat-header{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding-bottom:11px;
+    margin-bottom:11px;
+    border-bottom:1px solid var(--border);
   }
-  .phone-screen .pline.w70{width:70%;}
-  .phone-screen .pline.w50{width:50%; background:rgba(214,182,106,.4);}
+  .chat-header .chat-avatar{
+    width:26px;height:26px;border-radius:50%;flex-shrink:0;
+    background:linear-gradient(135deg,var(--color-accent),var(--color-primary));
+  }
+  .chat-header .chat-info strong{
+    display:block;
+    font-size:10px;
+    font-family:'Space Grotesk',sans-serif;
+    color:var(--text);
+    font-weight:600;
+  }
+  .chat-header .chat-status{
+    display:flex;align-items:center;gap:4px;
+    font-size:8px;color:var(--text-secondary);
+  }
+  .chat-header .chat-status i{
+    width:5px;height:5px;border-radius:50%;
+    background:#4ADE80;display:inline-block;
+  }
 
-  .phone-screen .pdot{
-    width:36px;height:36px;
-    border-radius:10px;
+  .chat-body{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+  }
+  .bubble{
+    max-width:82%;
+    padding:7px 10px;
+    border-radius:12px;
+    font-size:9px;
+    line-height:1.4;
+    color:var(--text);
+  }
+  .bubble-in{
+    align-self:flex-start;
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--border);
+    border-bottom-left-radius:3px;
+  }
+  .bubble-out{
+    align-self:flex-end;
     background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));
-    margin-bottom:14px;
-    border:1px solid rgba(255,255,255,.08);
+    border-bottom-right-radius:3px;
+  }
+
+  .chat-input{
+    margin-top:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 8px 7px 12px;
+    border-radius:20px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--border);
+  }
+  .chat-input span{
+    flex:1;height:6px;border-radius:3px;
+    background:rgba(255,255,255,.1);
+  }
+  .chat-input .send{
+    width:20px;height:20px;border-radius:50%;flex-shrink:0;
+    background:linear-gradient(135deg,var(--color-accent),var(--color-primary));
+  }
   }
 
   /* floating thin lines / particles */
@@ -560,6 +791,16 @@
     51%{transform-origin:bottom;}
     100%{transform:scaleY(0); transform-origin:bottom;}
   }
+  @keyframes shine{
+    to{background-position:200% center;}
+  }
+  @keyframes spinSlow{
+    to{transform:rotate(360deg);}
+  }
+  @keyframes floatBadge{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-12px);}
+  }
 
   /* ===== RESPONSIVE ===== */
   @media (max-width:980px){
@@ -570,18 +811,23 @@
     .hero-visual{height:440px; margin-top:20px;}
     .laptop{width:340px;}
     .phone{width:110px; right:0;}
-    .hero-stats{gap:30px;}
+    .float-badge{font-size:11.5px; padding:9px 13px;}
+    .float-badge.badge-top{left:-2%;}
+    .float-badge.badge-right{right:-2%;}
+    .float-badge.badge-corner{right:2%;}
   }
 
   @media (max-width:560px){
     .hero{padding-top:120px;}
     .hero h1{font-size:34px;}
     .hero-stats{flex-wrap:wrap; row-gap:20px;}
+    .hero-stats .stat{border-right:none; padding:0 24px 0 0;}
     .hero-actions{flex-direction:column; align-items:stretch;}
     .hero-actions a{text-align:center;}
     .hero-visual{height:380px;}
     .laptop{width:280px;}
     .phone{display:none;}
+    .float-badge{display:none;}
     .logo-svg{height:38px;}
     .navbar.scrolled .logo-svg{height:34px;}
   }
@@ -807,7 +1053,7 @@
   }
 
   .about-stat h3{
-    font-size:38px;
+    font-size:44px;
     color:var(--text);
     display:flex;
     align-items:baseline;
@@ -1475,6 +1721,8 @@
 
 <section class="hero" id="inicio">
   <div class="hero-grid-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-vignette"></div>
   <div class="float-line fl1"></div>
   <div class="float-line fl2"></div>
   <div class="float-dot fd1"></div>
@@ -1499,8 +1747,8 @@
 
       <div class="hero-stats">
         <div class="stat">
-          <h3>20+</h3>
-          <span>Projetos entregues</span>
+          <h3>50+</h3>
+          <span>Sites entregues</span>
         </div>
         <div class="stat">
           <h3>98%</h3>
@@ -1515,19 +1763,38 @@
 
     <div class="hero-visual">
       <div class="glow-orb"></div>
+      <div class="glow-ring"></div>
       <div class="device-stack">
         <div class="laptop">
           <div class="laptop-screen">
             <div class="laptop-topbar"><span></span><span></span><span></span></div>
             <div class="laptop-content">
-              <div class="line w40"></div>
-              <div class="line w80"></div>
-              <div class="line w60"></div>
-              <div class="card-mini">
-                <div class="avatar"></div>
-                <div class="bars">
-                  <div></div>
-                  <div></div>
+              <div class="mini-nav">
+                <div class="mini-logo"></div>
+                <div class="mini-links"><span></span><span></span><span></span></div>
+                <div class="mini-cta"></div>
+              </div>
+              <div class="mini-hero">
+                <div class="mini-headline">
+                  <div class="line w80"></div>
+                  <div class="line w60" style="margin-bottom:0;"></div>
+                </div>
+                <div class="mini-cta-pill"><span></span></div>
+              </div>
+              <div class="mini-bottom">
+                <div class="mini-chart">
+                  <div class="bar" style="height:35%"></div>
+                  <div class="bar" style="height:50%"></div>
+                  <div class="bar" style="height:42%"></div>
+                  <div class="bar" style="height:68%"></div>
+                  <div class="bar" style="height:58%"></div>
+                  <div class="bar" style="height:88%"></div>
+                  <div class="bar" style="height:100%"></div>
+                </div>
+                <div class="mini-review">
+                  <div class="mini-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                  <div class="mini-r-line w80"></div>
+                  <div class="mini-r-line w50"></div>
                 </div>
               </div>
             </div>
@@ -1539,12 +1806,52 @@
           <div class="phone-frame">
             <div class="phone-screen">
               <div class="phone-notch"></div>
-              <div class="pdot"></div>
-              <div class="pline w70"></div>
-              <div class="pline w50"></div>
-              <div class="pline w70"></div>
-              <div class="pline w50"></div>
+              <div class="chat-header">
+                <div class="chat-avatar"></div>
+                <div class="chat-info">
+                  <strong>JMG Service</strong>
+                  <span class="chat-status"><i></i>online</span>
+                </div>
+              </div>
+              <div class="chat-body">
+                <div class="bubble bubble-in">Olá! Vim pelo site 👋</div>
+                <div class="bubble bubble-out">Que bom te ver por aqui! Vamos falar do seu projeto?</div>
+                <div class="bubble bubble-in">Perfeito 🚀</div>
+              </div>
+              <div class="chat-input"><span></span><div class="send"></div></div>
             </div>
+          </div>
+        </div>
+
+        <div class="float-badge badge-top">
+          <div class="ico">▲</div>
+          <div>
+            <strong>+150% tráfego</strong>
+            <small>em 90 dias</small>
+          </div>
+        </div>
+
+        <div class="float-badge badge-bottom">
+          <div class="ico">✓</div>
+          <div>
+            <strong>Site no ar</strong>
+            <small>em até 15 dias</small>
+          </div>
+        </div>
+
+        <div class="float-badge badge-right">
+          <div class="ico">🎯</div>
+          <div>
+            <strong>+40 leads</strong>
+            <small>gerados por mês</small>
+          </div>
+        </div>
+
+        <div class="float-badge badge-corner">
+          <div class="ico">★</div>
+          <div>
+            <strong>4.9 de avaliação</strong>
+            <small>+50 sites entregues</small>
           </div>
         </div>
       </div>
@@ -1620,8 +1927,8 @@
 
       <div class="about-stats">
         <div class="about-stat reveal">
-          <h3><span class="counter" data-target="20" data-suffix="+">20+</span></h3>
-          <span>Projetos entregues</span>
+          <h3><span class="counter" data-target="50" data-suffix="+">50+</span></h3>
+          <span>Sites entregues</span>
         </div>
         <div class="about-stat reveal">
           <h3><span class="counter" data-target="99.4" data-suffix="%">99,4%</span></h3>
@@ -1707,32 +2014,32 @@
       </article>
 
       <article class="portfolio-card reveal">
-        <div class="portfolio-thumb" style="--proj-a:#2B2B2B;--proj-b:#0E0E0E;">
-          <span class="portfolio-category">Institucional</span>
+        <div class="portfolio-thumb" style="--proj-a:#D6B66A;--proj-b:#12352E;">
+          <span class="portfolio-category">Landing Page</span>
           <div class="mockup-window">
             <div class="mockup-topbar"><span></span><span></span><span></span></div>
-            <div class="mockup-body"><img src="https://images.unsplash.com/photo-1635282760019-66a3ef07344b?w=500&q=70&auto=format&fit=crop" alt="Imagem do site JM3 Estruturas Metálicas" loading="lazy" width="400" height="220"></div>
+            <div class="mockup-body"><img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500&q=70&auto=format&fit=crop" alt="Imagem do site Santo Pastel" loading="lazy" width="400" height="220"></div>
           </div>
         </div>
         <div class="portfolio-info">
-          <h3>JM3 Estruturas Metálicas</h3>
-          <p>Site institucional para empresa de estruturas metálicas, com apresentação de serviços e captação de contato.</p>
-          <a href="https://jm3-estruturas-metalicas-br.vercel.app/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAae_CSwdKtsc8ulXn7bRMo90UYQNyD8rgihA-r9NuSyLmblF_GgN3ZIRexBvhg_aem_vwb-ATy63MPda1cLwW7FGw" class="portfolio-view" target="_blank" rel="noopener">Ver projeto <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"></path></svg></a>
+          <h3>Santo Pastel</h3>
+          <p>Landing page de conversão para pastelaria, com cardápio, promoções e depoimentos de clientes.</p>
+          <a href="https://santo-pastel.vercel.app/" class="portfolio-view" target="_blank" rel="noopener">Ver projeto <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"></path></svg></a>
         </div>
       </article>
 
       <article class="portfolio-card reveal">
-        <div class="portfolio-thumb" style="--proj-a:#B80F0A;--proj-b:#141414;">
+        <div class="portfolio-thumb" style="--proj-a:#12352E;--proj-b:#0E5A4F;">
           <span class="portfolio-category">Institucional</span>
           <div class="mockup-window">
             <div class="mockup-topbar"><span></span><span></span><span></span></div>
-            <div class="mockup-body"><img class="logo-fit" src="https://phoenix-estetica-automotiva.vercel.app/logo-phoenix.png" alt="Logotipo do site Phoenix Estética Automotiva" loading="lazy" width="400" height="220"></div>
+            <div class="mockup-body"><img class="logo-fit" src="https://advocacia-b-ck-e-hoffmann.vercel.app/assets/images/logo.png" alt="Logotipo do site Advocacia Böck e Hoffmann" loading="lazy" width="400" height="220"></div>
           </div>
         </div>
         <div class="portfolio-info">
-          <h3>Phoenix Estética Automotiva</h3>
-          <p>Site institucional com catálogo de serviços e sistema de agendamento online, incluindo escolha de múltiplos serviços em um só horário.</p>
-          <a href="https://phoenix-estetica-automotiva.vercel.app/index.html#topo" class="portfolio-view" target="_blank" rel="noopener">Ver projeto <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"></path></svg></a>
+          <h3>Advocacia Böck e Hoffmann</h3>
+          <p>Site institucional para escritório de advocacia, com áreas de atuação e captação de contato pelo WhatsApp.</p>
+          <a href="https://advocacia-b-ck-e-hoffmann.vercel.app/" class="portfolio-view" target="_blank" rel="noopener">Ver projeto <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"></path></svg></a>
         </div>
       </article>
 
